@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+    .todo {
+        @apply bg-white bg-opacity-15 w-10/12 md:w-8/12 lg:w-7/12 xl:w-3/6 flex justify-between gap-6 py-3 px-4 
+        text-2xl rounded-lg transition duration-200 hover:bg-opacity-25
+    }
+
+    .todo__status {
+        @apply text-2xl transition duration-200 hover:scale-[1.15]
+    }
+
+    .todo_text_edit {
+        @apply flex flex-1 pl-3 border focus:bg-transparent
+    }
+
+    .todo__text {
+        @apply flex flex-1 
+    }
+
+    .todo_edit_and_del {
+        @apply flex gap-3 items-center
+    }
+
+    .todo__delete, .todo__edit {
+        @apply text-lg
+    }
+
+}

@@ -1,0 +1,55 @@
+# Node.js and NPM-related files
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Logs
+logs
+*.log
+*.log.*
+
+# Directory for Vite (Frontend)
+client/node_modules/
+client/dist/  # Vite build output
+client/.env   # Vite environment file
+client/.env.* # Vite environment files for specific environments
+client/.cache # Vite cache
+client/.DS_Store # macOS generated file
+
+# Directory for Express (Backend)
+server/node_modules/
+server/dist/ # TypeScript build output
+server/.env   # Express environment file
+server/.env.* # Express environment files for specific environments
+
+# TypeScript-related files
+client/tsconfig.tsbuildinfo
+server/tsconfig.tsbuildinfo
+
+# IDE or Editor-specific files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+*.bak
+*.tmp
+*.swp
+*.swo
+*~

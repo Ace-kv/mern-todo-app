@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    h1 {
+        @apply text-[1.95rem] md:text-[2.7rem] text-center font-bold pt-16 pb-6
+    }
+
+    body {
+        @apply bg-black bg-black-paper text-white
+    }
+
+}
+
+@layer components {
+    
+    .main-container {
+        @apply max-w-full xl:max-w-[1200px] mx-auto                /* could use container class to make max width responsive */
+    }
+
+    .todos {
+        @apply flex flex-col items-center gap-3
+    }
+
+    .todo_form {
+        @apply w-10/12 md:w-8/12 lg:w-7/12 xl:w-3/6 flex gap-2 my-4 mx-auto
+    }
+
+    .todo_form__input {
+        @apply flex-1 border text-black text-lg px-4 py-2 rounded-md bg-white focus:bg-opacity-95
+    }
+
+    .create_todo_btn {
+        @apply bg-blue-950 text-white text-lg rounded px-4 py-2
+    }
+
+}
