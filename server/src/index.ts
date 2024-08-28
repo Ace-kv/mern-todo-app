@@ -23,12 +23,16 @@ app.use("/api", router)
 
 const port = process.env.PORT || 4000
 
-const startServer = async () => {
-    await connectToMogoDB()
+connectToMogoDB()
+// Local
+// const startServer = async () => {
+//     await connectToMogoDB()
 
-    app.listen(port, () => {
-        console.log(`Server is listening on http://localhost:${port}`);
-    })
-}
+//     app.listen(port, () => {
+//         console.log(`Server is listening on http://localhost:${port}`);
+//     })
+// }
 
-startServer()
+// startServer()
+
+export default app
