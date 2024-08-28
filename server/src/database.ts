@@ -15,7 +15,8 @@ let client: undefined | MongoClient
 export const connectToMogoDB = async () => {
     if (!client) {
         try {
-            client = await MongoClient.connect(uri, options)
+            client = new MongoClient(uri, options);
+            await client.connect();  // Await the connection
             console.log("Connected to MongoDB");
             
         } catch (error) {

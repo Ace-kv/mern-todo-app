@@ -1,10 +1,11 @@
 import express, { Router, Request, Response } from "express"
-import { getConnectedClient } from "./database"
+import { getConnectedClient, connectToMogoDB } from "./database"
 import { ObjectId } from "mongodb"
 
 export const router: Router = express.Router()
 
-const getCollection = () => {
+const getCollection = async () => {
+    await connectToMogoDB()
     const client = getConnectedClient()
     const collection = client?.db("todosdb").collection("todos")
 
@@ -13,7 +14,7 @@ const getCollection = () => {
 
 // GET /todos
 router.get('/todos', async (req: Request, res: Response) => {
-    const collection = getCollection()
+    const collection = await getCollection()
     const todos = await collection?.find({}).toArray()
 
     res.status(200).json(todos)
@@ -21,7 +22,7 @@ router.get('/todos', async (req: Request, res: Response) => {
 
 // POST /todos
 router.post('/todos', async (req: Request, res: Response) => {
-    const collection = getCollection()
+    const collection = await getCollection()
     const { todo } = req.body
 
     if (!todo) {
@@ -44,7 +45,7 @@ router.post('/todos', async (req: Request, res: Response) => {
 
 // DELETE /todos/:id
 router.delete('/todos/:id', async (req: Request, res: Response) => {
-    const collection = getCollection()
+    const collection = await getCollection()
 
     // mongoDB requirement to handle ids
     const _id = new ObjectId(req.params.id)
@@ -58,7 +59,7 @@ router.delete('/todos/:id', async (req: Request, res: Response) => {
 
 // PUT /todos/:id
 router.put('/todos/:id', async (req: Request, res: Response) => {
-    const collection = getCollection();
+    const collection = await getCollection();
 
     // mongoDB requirement to handle ids
     const _id = new ObjectId(req.params.id);
