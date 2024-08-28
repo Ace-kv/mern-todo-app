@@ -4,7 +4,7 @@ import "./styles.css"
 export interface TodoI {
     "_id": string,
     "todo": string,
-    "status": boolean
+    "status": boolean,
 }
 
 const Todo = ({ todo, setTodos }: { 
