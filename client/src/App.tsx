@@ -8,7 +8,7 @@ const App = () => {
   useEffect(() => {
     const getTodos = async () => {
       try {
-        const res: Response = await fetch('/api/todos')
+        const res: Response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/todos`);
 
         if (!res.ok) {
           throw new Error(`HTTP Error: Status: ${res.status}`)
@@ -33,7 +33,7 @@ const App = () => {
     e.preventDefault()
 
     if (content.length > 3) {
-      const res = await fetch("/api/todos", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/todos`, {
         method: "POST",
         body: JSON.stringify({
           todo: content

@@ -22,7 +22,7 @@ const Todo = ({ todo, setTodos }: {
     }, [isEditing])
 
     const updateTodoStatus = async (todoId: string, todoStatus: boolean) => {
-        const res = await fetch(`/api/todos/${todoId}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/todos/${todoId}`, {
             method: "PUT",
             body: JSON.stringify({
                 status: todoStatus
@@ -50,7 +50,7 @@ const Todo = ({ todo, setTodos }: {
     }
 
     const updateTodoText = async (todoId: string, todoText: string) => {
-        const res = await fetch(`/api/todos/${todoId}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/todos/${todoId}`, {
             method: "PUT",
             body: JSON.stringify({
                 todo: todoText
@@ -80,7 +80,7 @@ const Todo = ({ todo, setTodos }: {
     }
 
     const deleteTodo = async (todoId: string) => {
-        const res = await fetch(`/api/todos/${todoId}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/todos/${todoId}`, {
             method: "DELETE",
         })
 
