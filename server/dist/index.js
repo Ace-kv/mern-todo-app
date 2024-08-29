@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
     import('dotenv/config');
 }
 const express_1 = __importDefault(require("express"));
-const routes_1 = require("./routes");
+const routes_1 = __importDefault(require("./routes"));
 const database_1 = require("./database");
 const app = (0, express_1.default)();
 app.get("/", (req, res) => {
@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 // Middleware to parse JSON bodies for POST and others
 app.use(express_1.default.json());
-app.use("/api", routes_1.router);
+app.use("/api", routes_1.default);
 // Local
 // const port = process.env.PORT || 4000
 (0, database_1.connectToMogoDB)();

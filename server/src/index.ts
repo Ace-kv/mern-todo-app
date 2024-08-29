@@ -2,7 +2,7 @@ if (process.env.NODE_ENV !== 'production') {
     import('dotenv/config');
 }
 import express, { Express, Request, Response } from "express";
-import { router } from "./routes";
+import router from "./routes";
 import { connectToMogoDB } from './database';
 
 const app: Express = express()
