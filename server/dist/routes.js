@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
 const express_1 = __importDefault(require("express"));
 const database_1 = require("./database");
 const mongodb_1 = require("mongodb");
-const router = express_1.default.Router();
+exports.router = express_1.default.Router();
 const getCollection = async () => {
     await (0, database_1.connectToMogoDB)();
     const client = (0, database_1.getConnectedClient)();
@@ -14,13 +15,13 @@ const getCollection = async () => {
     return collection;
 };
 // GET /todos
-router.get('/todos', async (req, res) => {
+exports.router.get('/todos', async (req, res) => {
     const collection = await getCollection();
     const todos = await collection?.find({}).toArray();
     res.status(200).json(todos);
 });
 // POST /todos
-router.post('/todos', async (req, res) => {
+exports.router.post('/todos', async (req, res) => {
     const collection = await getCollection();
     const { todo } = req.body;
     if (!todo) {
@@ -39,7 +40,7 @@ router.post('/todos', async (req, res) => {
     });
 });
 // DELETE /todos/:id
-router.delete('/todos/:id', async (req, res) => {
+exports.router.delete('/todos/:id', async (req, res) => {
     const collection = await getCollection();
     // mongoDB requirement to handle ids
     const _id = new mongodb_1.ObjectId(req.params.id);
@@ -49,7 +50,7 @@ router.delete('/todos/:id', async (req, res) => {
     });
 });
 // PUT /todos/:id
-router.put('/todos/:id', async (req, res) => {
+exports.router.put('/todos/:id', async (req, res) => {
     const collection = await getCollection();
     // mongoDB requirement to handle ids
     const _id = new mongodb_1.ObjectId(req.params.id);
@@ -102,4 +103,3 @@ router.put('/todos/:id', async (req, res) => {
 //         updatedTodo: updatedTodo
 //     })
 // })
-exports.default = router;

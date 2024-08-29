@@ -7,9 +7,15 @@ if (process.env.NODE_ENV !== 'production') {
     import('dotenv/config');
 }
 const express_1 = __importDefault(require("express"));
-const routes_1 = __importDefault(require("./routes"));
+const routes_1 = require("./routes");
 const database_1 = require("./database");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)({
+    origin: "http://localhost:3000", // Replace with your front-end URL
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+}));
 app.get("/", (req, res) => {
     res.status(200).json({
         msg: "hello"
@@ -20,7 +26,7 @@ app.get("/", (req, res) => {
 });
 // Middleware to parse JSON bodies for POST and others
 app.use(express_1.default.json());
-app.use("/api", routes_1.default);
+app.use("/api", routes_1.router);
 // Local
 // const port = process.env.PORT || 4000
 (0, database_1.connectToMogoDB)();

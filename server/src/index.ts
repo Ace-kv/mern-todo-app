@@ -4,8 +4,15 @@ if (process.env.NODE_ENV !== 'production') {
 import express, { Express, Request, Response } from "express";
 import { router } from "./routes";
 import { connectToMogoDB } from './database';
+import cors from "cors"
 
 const app: Express = express()
+
+app.use(cors({
+    origin: "http://localhost:3000",  // Replace with your front-end URL
+    methods: ["GET", "POST", "PUT", "DELETE"],  // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"],  // Allowed headers
+}));
 
 app.get("/", (req: Request, res: Response) => {                 // positional args
     res.status(200).json({
