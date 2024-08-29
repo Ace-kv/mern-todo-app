@@ -117,7 +117,7 @@ const Todo = ({ todo, setTodos }: {
                     }}
                     onBlur={() => setIsEditing(false)}
                 /> :
-                <p className={todo.status ? 'todo__text line-through decoration-1' : 'todo__text'}>{todo.todo}</p>
+                <p className={todo.status ? 'todo__text line-through decoration-[1.5px]' : 'todo__text'}>{todo.todo}</p>
             }
             <div className="todo_edit_and_del">
                 <button 
