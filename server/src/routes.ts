@@ -2,7 +2,7 @@ import express, { Router, Request, Response } from "express"
 import { getConnectedClient, connectToMogoDB } from "./database"
 import { ObjectId } from "mongodb"
 
-const router: Router = express.Router()
+export const router: Router = express.Router()
 
 const getCollection = async () => {
     await connectToMogoDB()
@@ -128,5 +128,3 @@ router.put('/todos/:id', async (req: Request, res: Response) => {
 //         updatedTodo: updatedTodo
 //     })
 // })
-
-export default router

@@ -7,8 +7,8 @@
     }
   ],
   "routes": [
-    { "src": "/api/todos", "dest": "dist/routes.js" },
-    { "src": "/api/todos/(.*)", "dest": "dist/routes.js" },
+    { "src": "/api/todos", "dest": "dist/index.js" },
+    { "src": "/api/todos/(.*)", "dest": "dist/index.js" },
     { "src": "/", "dest": "dist/index.js" }
   ]
 }
