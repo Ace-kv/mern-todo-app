@@ -9,9 +9,9 @@ import cors from "cors"
 const app: Express = express()
 
 app.use(cors({
-    origin: "http://localhost:3000",  // Replace with your front-end URL
-    methods: ["GET", "POST", "PUT", "DELETE"],  // Allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"],  // Allowed headers
+    origin: "https://mern-todo-app-rho.vercel.app",  // Replace with your front-end URL
+    methods: ["GET", "POST", "PUT", "DELETE"],  
+    allowedHeaders: ["Content-Type", "Authorization"], 
 }));
 
 app.get("/", (req: Request, res: Response) => {                 // positional args
