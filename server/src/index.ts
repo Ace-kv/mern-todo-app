@@ -7,14 +7,14 @@ import { connectToMogoDB } from './database';
 
 const app: Express = express()
 
-// app.get("/hello", (req: Request, res: Response) => {                 // positional args
-//     res.status(200).json({
-//         msg: "hello" 
-//     })
-//     // res.send({
-//     //     anotherMsg: "hello again"
-//     // })
-// })
+app.get("/", (req: Request, res: Response) => {                 // positional args
+    res.status(200).json({
+        msg: "hello" 
+    })
+    // res.send({
+    //     anotherMsg: "hello again"
+    // })
+})
 
 // Middleware to parse JSON bodies for POST and others
 app.use(express.json())
