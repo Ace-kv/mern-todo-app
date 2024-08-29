@@ -1,13 +1,16 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "dist/index.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      { "src": "/api/(.*)", "dest": "dist/index.js" }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/**/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    { "src": "/api/todos", "dest": "dist/routes.js" },
+    { "src": "/api/todos/(.*)", "dest": "dist/routes.js" },
+    { "src": "/", "dest": "dist/index.js" }
+  ]
+}
+
   
