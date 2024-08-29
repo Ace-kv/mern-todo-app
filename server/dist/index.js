@@ -10,14 +10,14 @@ const express_1 = __importDefault(require("express"));
 const routes_1 = require("./routes");
 const database_1 = require("./database");
 const app = (0, express_1.default)();
-// app.get("/hello", (req: Request, res: Response) => {                 // positional args
-//     res.status(200).json({
-//         msg: "hello" 
-//     })
-//     // res.send({
-//     //     anotherMsg: "hello again"
-//     // })
-// })
+app.get("/", (req, res) => {
+    res.status(200).json({
+        msg: "hello"
+    });
+    // res.send({
+    //     anotherMsg: "hello again"
+    // })
+});
 // Middleware to parse JSON bodies for POST and others
 app.use(express_1.default.json());
 app.use("/api", routes_1.router);
