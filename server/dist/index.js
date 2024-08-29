@@ -12,9 +12,9 @@ const database_1 = require("./database");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
-    origin: "http://localhost:3000", // Replace with your front-end URL
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+    origin: "https://mern-todo-app-rho.vercel.app", // Replace with your front-end URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
 }));
 app.get("/", (req, res) => {
     res.status(200).json({
