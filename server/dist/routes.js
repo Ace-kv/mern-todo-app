@@ -8,7 +8,9 @@ const express_1 = __importDefault(require("express"));
 const database_1 = require("./database");
 const mongodb_1 = require("mongodb");
 exports.router = express_1.default.Router();
-// Middleware to connect to the database ONCE, get the collection, and pass the collection to req
+// Middleware to CONNECT to the database ONCE, get the collection, and pass the collection to res.locals for temporary data
+// i.e. any data that needs to be passed between middleware functions and route handlers only for the duration of a single request.
+// Examples include a MongoDB collection reference, user authentication data, or any state needed only for the current HTTP request.
 const getCollectionMiddleWare = async (req, res, next) => {
     try {
         await (0, database_1.connectToMogoDB)();
@@ -19,7 +21,7 @@ const getCollectionMiddleWare = async (req, res, next) => {
                 msg: "Failed to get the collection",
             });
         }
-        req.collection = collection;
+        res.locals.collection = collection; // Store collection in res.locals
         next(); // Continue to the next middleware or route handler
     }
     catch (error) {
@@ -36,17 +38,18 @@ const getCollectionMiddleWare = async (req, res, next) => {
             });
         }
     }
-    return collection;
 };
+// Apply the middleware to use the collection in all routes
+exports.router.use(getCollectionMiddleWare);
 // GET /todos
 exports.router.get('/todos', async (req, res) => {
-    const collection = await getCollection();
+    const collection = res.locals.collection; // Access the collection from res.locals
     const todos = await collection?.find({}).toArray();
     res.status(200).json(todos);
 });
 // POST /todos
 exports.router.post('/todos', async (req, res) => {
-    const collection = await getCollection();
+    const collection = res.locals.collection;
     const { todo } = req.body;
     if (!todo) {
         return res.status(400).json({
@@ -63,9 +66,9 @@ exports.router.post('/todos', async (req, res) => {
         _id: newTodo?.insertedId
     });
 });
-// DELETE /todos/:id
+// DELETE /todos/:id - Delete a single todo by ID
 exports.router.delete('/todos/:id', async (req, res) => {
-    const collection = await getCollection();
+    const collection = res.locals.collection;
     // mongoDB requirement to handle ids
     const _id = new mongodb_1.ObjectId(req.params.id);
     const deletedTodo = await collection?.deleteOne({ _id: _id });
@@ -73,9 +76,25 @@ exports.router.delete('/todos/:id', async (req, res) => {
         deletedTodo: deletedTodo
     });
 });
+// DELETE /todos - Delete multiple todos by ID(s)
+exports.router.delete('/todos', async (req, res) => {
+    const collection = res.locals.collection;
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({
+            msg: "No valid IDs provided for deletion.",
+        });
+    }
+    const objectIds = ids.map((id) => new mongodb_1.ObjectId(id));
+    const deleteResult = await collection.deleteMany({ _id: { $in: objectIds } });
+    res.status(200).json({
+        deletedCount: deleteResult.deletedCount,
+        msg: `${deleteResult.deletedCount} todos deleted.`,
+    });
+});
 // PUT /todos/:id
 exports.router.put('/todos/:id', async (req, res) => {
-    const collection = await getCollection();
+    const collection = res.locals.collection;
     // mongoDB requirement to handle ids
     const _id = new mongodb_1.ObjectId(req.params.id);
     const { status, todo } = req.body;
