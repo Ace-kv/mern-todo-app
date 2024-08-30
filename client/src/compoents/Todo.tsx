@@ -7,9 +7,10 @@ export interface TodoI {
     "status": boolean,
 }
 
-const Todo = ({ todo, setTodos }: { 
+const Todo = ({ todo, setTodos, onSelect }: { 
     todo: TodoI, 
-    setTodos: React.Dispatch<React.SetStateAction<TodoI[]>>
+    setTodos: React.Dispatch<React.SetStateAction<TodoI[]>>,
+    onSelect: (id: string, selected: boolean) => void
 }) => {
     const [isEditing, setIsEditing] = useState(false)
     const [newTodoText, setNewTodoText] = useState(todo.todo)
@@ -21,11 +22,11 @@ const Todo = ({ todo, setTodos }: {
         }
     }, [isEditing])
 
-    const updateTodoStatus = async (todoId: string, todoStatus: boolean) => {
+    const updateTodoStatusAndSelect = async (todoId: string, currentStatus: boolean) => {
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/todos/${todoId}`, {
             method: "PUT",
             body: JSON.stringify({
-                status: todoStatus
+                status: currentStatus
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -35,6 +36,7 @@ const Todo = ({ todo, setTodos }: {
         const updateRes = await res.json()
         console.log(updateRes);
         
+        const newStatus = !currentStatus
 
         if (updateRes.updatedTodo.acknowledged) {
             setTodos((currentTodos: TodoI[]) => (
@@ -46,6 +48,8 @@ const Todo = ({ todo, setTodos }: {
                     return currentTodo
                 })
             ))
+
+            onSelect(todoId, newStatus)
         }
     }
 
@@ -98,7 +102,7 @@ const Todo = ({ todo, setTodos }: {
             <div>
                 <button 
                     className="todo__status"
-                    onClick={() => updateTodoStatus(todo._id, todo.status)}
+                    onClick={() => updateTodoStatusAndSelect(todo._id, todo.status)}
                 >
                     {todo.status ? "☑" : "☐"}
                 </button>

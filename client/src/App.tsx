@@ -4,6 +4,7 @@ import Todo, { TodoI } from "./compoents/Todo"
 const App = () => {
   const [todos, setTodos] = useState<TodoI[]>([])
   const [content, setContent] = useState("")
+  const [selectedTodos, setSelectedTodos] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     const getTodos = async () => {
@@ -51,6 +52,55 @@ const App = () => {
     }
   }
 
+  const handleSlectedTodos = (id: string, selected: boolean) => {
+    // Avoid Stale State: When updating state based on previous values, using the functional update form ((prev) => ...) 
+    // ensures that your updates are based on the most current state. This is important in React because state updates 
+    // are asynchronous, and relying on an outdated state could lead to incorrect results.
+    setSelectedTodos((currentState) => {
+      const newSelected = new Set(currentState)
+      if (selected) {
+        newSelected.add(id)
+      } else {
+        newSelected.delete(id)
+      }
+
+      return newSelected
+    })
+  }
+
+  const deleteSelectedTodos = async () => {
+    const todosToDelete = Array.from(selectedTodos)
+
+    if (todosToDelete.length === 0) return
+
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/todos`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ids: todosToDelete
+      })
+    })
+
+    const deleteRes = await res.json()
+
+    if (deleteRes.deletedCount > 0) {
+      setTodos((currentTodos) => currentTodos.filter((todo) => !selectedTodos.has(todo._id)))
+      setSelectedTodos(new Set())
+    }
+  }
+
+  const selectAllTodos = () => {
+    // If all todos are selected, unselect all todos
+    if (selectedTodos.size === todos.length) {
+      setSelectedTodos(new Set())
+    } else {
+      // Otherwise, select all todos by adding all todo IDs to the set
+      setSelectedTodos(new Set(todos.map((todo) => todo._id)))
+    }
+  }
+
   return (
     <main className="main-container">
       <h1>Full Stack MERN Todo App</h1>
@@ -65,11 +115,19 @@ const App = () => {
         />
         <button className="create_todo_btn" type="submit">Create Todo</button>
       </form>
+      <button
+        onClick={selectAllTodos}
+      >
+        {todos.map((todo) => todo.status).includes(false) ? "☐" : "☑"}
+      </button>
+      {selectedTodos.size > 0 && (
+        <button onClick={deleteSelectedTodos}>Delete Seclected Todos</button>
+      )}
       <div className="todos">
         {todos.length > 0 &&    
           // <pre>{JSON.stringify(todos, null, 2)}</pre>                      
           todos.map(todo => (
-            <Todo key={todo._id} todo={todo} setTodos={setTodos} />
+            <Todo key={todo._id} todo={todo} setTodos={setTodos} onSelect={handleSlectedTodos} />
           ))
         }
       </div>          

@@ -8,10 +8,34 @@ const express_1 = __importDefault(require("express"));
 const database_1 = require("./database");
 const mongodb_1 = require("mongodb");
 exports.router = express_1.default.Router();
-const getCollection = async () => {
-    await (0, database_1.connectToMogoDB)();
-    const client = (0, database_1.getConnectedClient)();
-    const collection = client?.db("todosdb").collection("todos");
+// Middleware to connect to the database ONCE, get the collection, and pass the collection to req
+const getCollectionMiddleWare = async (req, res, next) => {
+    try {
+        await (0, database_1.connectToMogoDB)();
+        const client = (0, database_1.getConnectedClient)();
+        const collection = client?.db("todosdb").collection("todos");
+        if (!collection) {
+            return res.status(500).json({
+                msg: "Failed to get the collection",
+            });
+        }
+        req.collection = collection;
+        next(); // Continue to the next middleware or route handler
+    }
+    catch (error) {
+        // Handle unknown error type safely
+        if (error instanceof Error) {
+            res.status(500).json({
+                msg: "Database connection error",
+                error: error.message
+            });
+        }
+        else {
+            res.status(500).json({
+                msg: "Unknown error occurred"
+            });
+        }
+    }
     return collection;
 };
 // GET /todos
