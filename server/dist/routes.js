@@ -132,12 +132,12 @@ exports.router.put('/todos/:id', async (req, res) => {
     });
 });
 // PUT /todos Update Multiple Todo Statuses by IDs
-exports.router.put('todos', async (req, res) => {
+exports.router.put('/todos', async (req, res) => {
     const collection = res.locals.collection;
     const { ids, status } = req.body;
     if (!Array.isArray(ids) || ids.length === 0) {
         return res.status(400).json({
-            msg: "No valid IDs provided for deletion.",
+            msg: "No valid IDs provided to uodate.",
         });
     }
     const objectIds = ids.map((id) => new mongodb_1.ObjectId(id));

@@ -158,14 +158,14 @@ router.put('/todos/:id', async (req: Request, res: Response) => {
 });
 
 // PUT /todos Update Multiple Todo Statuses by IDs
-router.put('todos', async (req: Request, res: Response) => {
+router.put('/todos', async (req: Request, res: Response) => {
     const collection: Collection = res.locals.collection
 
     const { ids, status } = req.body
 
     if(!Array.isArray(ids) || ids.length === 0) {
         return res.status(400).json({
-            msg: "No valid IDs provided for deletion.",
+            msg: "No valid IDs provided to uodate.",
         })
     }
 
