@@ -125,14 +125,14 @@ const App = () => {
     if (selectedTodos.size === todos.length) {
       setSelectedTodos(new Set())
 
-      // Update status of all todos to true (or desired value)
+      // Update status of all todos to false
       changeBulkTodoStatus(false)
-      
+
     } else {
       // Otherwise, select all todos by adding all todo IDs to the set
       setSelectedTodos(new Set(todos.map((todo) => todo._id)))
 
-      // Update status of all todos to true (or desired value)
+      // Update status of all todos to true
       changeBulkTodoStatus(true)
        
     }
