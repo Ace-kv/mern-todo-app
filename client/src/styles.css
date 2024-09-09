@@ -33,7 +33,7 @@
     }
 
     .create_todo_btn {
-        @apply bg-white text-black text-lg rounded px-4 py-2
+        @apply bg-blue-950 text-white text-lg rounded px-4 py-2
     }
 
     .selAll-and-delSel-btn {
@@ -45,7 +45,7 @@
     }
 
     .delete-selected-todos-btn {
-        @apply bg-blue-950 text-white text-lg rounded px-4 py-2
+        @apply bg-white text-black text-lg rounded px-4 py-2
     }
 
 }
