@@ -172,7 +172,7 @@ router.put('/todos', async (req: Request, res: Response) => {
     const objectIds = ids.map((id: string) => new ObjectId(id))
     const updatedResult = await collection.updateMany(
         { _id: { $in: objectIds } },
-        { status: { $set: status } }
+        { $set: { status: status } }
     )
 
     res.status(200).json({

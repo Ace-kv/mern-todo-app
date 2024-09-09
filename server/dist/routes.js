@@ -141,7 +141,7 @@ exports.router.put('/todos', async (req, res) => {
         });
     }
     const objectIds = ids.map((id) => new mongodb_1.ObjectId(id));
-    const updatedResult = await collection.updateMany({ _id: { $in: objectIds } }, { status: { $set: status } });
+    const updatedResult = await collection.updateMany({ _id: { $in: objectIds } }, { $set: { status: status } });
     res.status(200).json({
         matchedCount: updatedResult.matchedCount,
         modifiedCount: updatedResult.modifiedCount,
