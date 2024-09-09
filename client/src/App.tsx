@@ -130,10 +130,9 @@ const App = () => {
 
     } else {
       // Otherwise, select all todos by adding all todo IDs to the set
-      setSelectedTodos(new Set(todos.map((todo) => todo._id)))
-
       // Update status of all todos to true
       changeBulkTodoStatus(true)
+      setSelectedTodos(new Set(todos.map((todo) => todo._id)))
        
     }
   }
