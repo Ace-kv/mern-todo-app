@@ -152,14 +152,22 @@ const App = () => {
         />
         <button className="create_todo_btn" type="submit">Create Todo</button>
       </form>
-      <button
-        onClick={selectAllTodos}
-      >
-        {todos.map((todo) => todo.status).includes(false) ? "☐" : "☑"}
-      </button>
-      {selectedTodos.size > 0 && (
-        <button onClick={deleteSelectedTodos}>Delete Seclected Todos</button>
-      )}
+      <div className="selAll-and-delSel-btn">
+        <button
+          className="selectAllBtn"
+          onClick={selectAllTodos}
+        >
+          {todos.map((todo) => todo.status).includes(false) ? "☐" : "☑"}
+        </button>
+        {selectedTodos.size > 0 && (
+          <button 
+            className="delete-selected-todos-btn" 
+            onClick={deleteSelectedTodos}
+          >
+            Delete Seclected Todos
+          </button>
+        )}
+      </div>
       <div className="todos">
         {todos.length > 0 &&    
           // <pre>{JSON.stringify(todos, null, 2)}</pre>                      
