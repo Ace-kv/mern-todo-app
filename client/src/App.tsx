@@ -91,13 +91,50 @@ const App = () => {
     }
   }
 
-  const selectAllTodos = () => {
+  const selectAllTodos = async () => {
+
+    const changeBulkTodoStatus = async (status: boolean) => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/todos`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ids: todos.map((todo) => todo._id),  // Send all todo IDs
+            status: status,
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error(`Failed to update todos: ${res.statusText}`);
+        }
+
+        const updateRes = await res.json();
+        if (updateRes.modifiedCount > 0) {
+          setTodos((currentTodos) =>
+            currentTodos.map((todo) => ({ ...todo, status: status })) // Update status locally
+          );
+        }
+      } catch (error) {
+        console.error("Error updating todos:", error);
+      }
+    }
+
     // If all todos are selected, unselect all todos
     if (selectedTodos.size === todos.length) {
       setSelectedTodos(new Set())
+
+      // Update status of all todos to true (or desired value)
+      changeBulkTodoStatus(false)
+      
     } else {
       // Otherwise, select all todos by adding all todo IDs to the set
       setSelectedTodos(new Set(todos.map((todo) => todo._id)))
+
+      // Update status of all todos to true (or desired value)
+      changeBulkTodoStatus(true)
+       
     }
   }
 

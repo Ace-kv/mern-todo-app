@@ -157,6 +157,32 @@ router.put('/todos/:id', async (req: Request, res: Response) => {
     });
 });
 
+// PUT /todos Update Multiple Todo Statuses by IDs
+router.put('todos', async (req: Request, res: Response) => {
+    const collection: Collection = res.locals.collection
+
+    const { ids, status } = req.body
+
+    if(!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({
+            msg: "No valid IDs provided for deletion.",
+        })
+    }
+
+    const objectIds = ids.map((id: string) => new ObjectId(id))
+    const updatedResult = await collection.updateMany(
+        { _id: { $in: objectIds } },
+        { status: { $set: !status } }
+    )
+
+    res.status(200).json({
+        matchedCount: updatedResult.matchedCount,
+        modifiedCount: updatedResult.modifiedCount,
+        message: `${updatedResult.modifiedCount} todos updated.`,
+    })
+
+})
+
 
 // router.put('/todos/:id', async (req: Request, res: Response) => {
 //     const collection = getCollection()
